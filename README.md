@@ -7,7 +7,7 @@
 
 ## 📑 Sumário Executivo & Navegação
 1. [Visão Comercial & Proposta de Valor (Para CFOs e Diretores)](#1-visão-comercial--proposta-de-valor)
-2. [Como Funciona — Até um Macaco Pode Usar (Guia Passo a Passo Simplificado)](#2-como-funciona--até-um-macaco-pode-usar)
+2. [Guia de Operação Intuitivo (Passo a Passo Simplificado)](#2-guia-de-operação-intuitivo)
 3. [Arquitetura Técnica em 4 Camadas (Para Arquitetos e Tech Leads)](#3-arquitetura-técnica-em-4-camadas)
 4. [Cenários Agroindustriais da Atvos Implementados](#4-cenários-agroindustriais-da-atvos)
 5. [Rigor Contábil & Conformidade CPC 25 / IAS 37](#5-rigor-contábil--cpc-25--ias-37)
@@ -39,38 +39,37 @@ A Atvos gerencia e lança provisões contábeis num fluxo que historicamente dep
 
 ---
 
-## 2. Como Funciona — Até um Macaco Pode Usar 🐵🍌
+## 2. Guia de Operação Intuitivo
 
-Se você nunca viu um SAP ou uma tela de contabilidade na vida, imagine que o **Provisiona** é um **Robô Porteiro Super Inteligente**:
+O **Provisiona** foi projetado para ser tão direto e descomplicado que qualquer usuário da equipe financeira ou de operações consegue utilizá-lo sem treinamento prévio:
 
 ```
- 📄 O Papel Chega ──► 🤖 O Robô Lê & Confere ──► 🟢 Se tá Certo: Lança no SAP Sozinho
- (Medição / Frete)    (Cruza tudo com o SAP)    🔴 Se tá Errado: Apita e sugere a correção
+ 📄 Entrada do Documento ──► 🤖 Análise & Validação Automática ──► 🟢 Se Válido: Lançamento Direto no SAP
+ (Medição / CT-e / Laudo)     (Confronta Dados Mestres do ERP)      🔴 Se Divergente: Triagem Assistida (HITL)
 ```
 
-### Passo a Passo Mastigado:
+### Passo a Passo Simplificado:
 
-#### 🟢 Passo 1: Escolha um Caso ou Jogue o Arquivo
-Na parte de cima da tela, você tem **5 botões coloridos** prontos com casos reais da Atvos (Colheita de Cana, Moendas, Fretes de Etanol, etc.) ou pode clicar em **"+ Ingerir Provisão"** para arrastar qualquer PDF seu.
+#### 🟢 Passo 1: Selecionar ou Enviar o Documento
+No topo da interface, escolha um dos **5 cenários pré-configurados da Atvos** (Colheita de Cana, Manutenção de Moendas, Fretes de Etanol, etc.) ou clique em **"+ Ingerir Provisão"** para arrastar qualquer arquivo PDF/planilha da sua operação.
 
-#### 🟢 Passo 2: Clique no Botão Mágico Verde `⚡ Processar Tudo (Touchless)`
-- O robô vai ler o documento em **milissegundos** (**Camada 1**).
-- Vai entrar no banco de dados do SAP e checar se o CNPJ existe, se o Centro de Custo tá ativo e se a conta contábil tá certa (**Camada 2**).
-- Se tudo estiver aprovado, ele assina o documento com um código de segurança (**Camada 3**).
-- E grava no SAP gerando o número oficial `BELNR` (**Camada 4**).
+#### 🟢 Passo 2: Executar em Modo Touchless `⚡ Processar Tudo (Touchless)`
+- O sistema extrai todos os campos e calcula o score de confiança em milissegundos (**Camada 1**).
+- Confronta imediatamente o CNPJ, o Centro de Custo e a Conta Razão contra o cadastro mestre do SAP (**Camada 2**).
+- Valida a matriz de alçadas e gera o hash criptográfico de auditoria (**Camada 3**).
+- Registra o documento no SAP S/4HANA, gerando o número contábil oficial `BELNR` (**Camada 4**).
 
-#### 🟡 Passo 3: E se o papel tiver um erro? (Ex: Centro de Custo Desativado)
-- O robô **bloqueia na hora** e não deixa o erro entrar no SAP.
-- Ele acende uma luz amarela no topo: **"Fila de Exceções"**.
-- Você clica lá, o robô te diz: *"O centro CC-1300-LOG03 foi desativado, quer trocar pelo CC-1300-LOG04?"*.
-- Você clica em **"Salvar & Realimentar Modelo"** e pronto! O robô aprende para nunca mais errar.
+#### 🟡 Passo 3: Tratamento Rápido de Inconsistências (Fila de Exceções)
+- Se houver divergência (ex: um Centro de Custo inativo ou conta descontinuada), o motor bloqueia o envio ao SAP e direciona o item para a **Fila de Exceções**.
+- O sistema apresenta o diagnóstico e a sugestão automática de correção (ex: alterar para o novo centro ativo).
+- O analista clica em **"Salvar & Realimentar Modelo"** — a provisão é validada e o motor aprende o padrão para as próximas competências.
 
-#### 🟣 Passo 4: E se alguém tentar mandar o mesmo papel duas vezes?
-- Clique no botão roxo **"Testar Colisão de Idempotência"**.
-- O sistema bloqueia na hora com aviso `SAP RW 610: Documento duplicado rejeitado!`. Nada é lançado duas vezes por engano.
+#### 🟣 Passo 4: Proteção contra Duplicidades (Idempotência)
+- Ao clicar em **"Testar Colisão de Idempotência"**, o sistema tenta simular um reenvio do mesmo documento.
+- O guardião de integridade bloqueia a operação instantaneamente com o código `SAP RW 610`, garantindo zero duplicidades no balanço.
 
-#### 🔄 Passo 5: E para estornar a provisão no mês seguinte?
-- Basta clicar no botão amarelo **"Reversão Contábil FB08"**. O robô faz o estorno automático e zera as partidas.
+#### 🔄 Passo 5: Reversão Contábil Automatizada (FB08)
+- Na virada do mês ou com a chegada da fatura definitiva, basta clicar em **"Reversão Contábil FB08"** para registrar o estorno contábil automático no SAP.
 
 ---
 
