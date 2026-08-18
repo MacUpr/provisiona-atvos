@@ -1,0 +1,190 @@
+import { SapVendor, SapCostCenter, SapGlAccount, SapAccountingPeriod } from '../types/sap';
+
+export const ATVOS_COMPANIES = [
+  { code: '1000', name: 'Atvos Agroindustrial S.A. - Matriz SP', plant: '1001', state: 'SP' },
+  { code: '1100', name: 'Unidade Santa Luzia (Nova Alvorada do Sul - MS)', plant: '1101', state: 'MS' },
+  { code: '1200', name: 'Unidade Eldorado (Rio Brilhante - MS)', plant: '1201', state: 'MS' },
+  { code: '1300', name: 'Unidade Costa Rica (Costa Rica - MS)', plant: '1301', state: 'MS' },
+  { code: '1400', name: 'Unidade Alto Taquari (Alto Taquari - MT)', plant: '1401', state: 'MT' },
+  { code: '1500', name: 'Unidade Conquista do Pontal (Mirante do Paranapanema - SP)', plant: '1501', state: 'SP' },
+  { code: '1600', name: 'Unidade Teodoro Sampaio (Teodoro Sampaio - SP)', plant: '1601', state: 'SP' },
+];
+
+export const SAP_VENDORS_DB: SapVendor[] = [
+  {
+    lifnr: '0000104821',
+    name1: 'AGROSAFRA COLHEITA & LOGÍSTICA LTDA',
+    stcd1: '12.345.678/0001-90',
+    ktokk: 'FORN',
+    isActive: true,
+    blockedForPosting: false,
+  },
+  {
+    lifnr: '0000108934',
+    name1: 'METALÚRGICA DEDINI EQUIPAMENTOS PESADOS S.A.',
+    stcd1: '98.765.432/0001-10',
+    ktokk: 'FORN',
+    isActive: true,
+    blockedForPosting: false,
+  },
+  {
+    lifnr: '0000103490',
+    name1: 'TRANSETANOL TRANSPORTES RODOVIÁRIOS S.A.',
+    stcd1: '45.123.789/0001-55',
+    ktokk: 'TRAN',
+    isActive: true,
+    blockedForPosting: false,
+  },
+  {
+    lifnr: '0000107721',
+    name1: 'BIOTEC VARIEDADES DE CANA & GENÉTICA LTDA',
+    stcd1: '33.888.999/0001-22',
+    ktokk: 'FORN',
+    isActive: true,
+    blockedForPosting: false,
+  },
+  {
+    lifnr: '0000106112',
+    name1: 'GEOAMBIENTAL LAUDOS & CONSULTORIA FLORESTAL LTDA',
+    stcd1: '77.444.111/0001-88',
+    ktokk: 'SERV',
+    isActive: true,
+    blockedForPosting: false,
+  },
+  {
+    lifnr: '0000100001',
+    name1: 'FORNECEDOR IRREGULAR BLOQUEADO RECEITA',
+    stcd1: '00.000.000/0001-00',
+    ktokk: 'FORN',
+    isActive: false,
+    blockedForPosting: true,
+  },
+];
+
+export const SAP_COST_CENTERS_DB: SapCostCenter[] = [
+  {
+    kostl: 'CC-1100-AGR01',
+    ktext: 'Colheita Mecanizada & Transbordo Cana',
+    bukrs: '1100',
+    werks: '1101',
+    prctr: 'PC-1100-AGRO',
+    responsibleManager: 'Carlos Eduardo Mendes',
+    managerEmail: 'carlos.mendes@atvos.com',
+    isActive: true,
+  },
+  {
+    kostl: 'CC-1200-IND02',
+    ktext: 'Moendas e Manutenção de Entressafra',
+    bukrs: '1200',
+    werks: '1201',
+    prctr: 'PC-1200-INDU',
+    responsibleManager: 'Eng. Roberto Silveira',
+    managerEmail: 'roberto.silveira@atvos.com',
+    isActive: true,
+  },
+  {
+    kostl: 'CC-1300-LOG03',
+    ktext: 'Expedição Etanol Antiga (DESATIVADO SAP)',
+    bukrs: '1300',
+    werks: '1301',
+    prctr: 'PC-1300-LOGI',
+    responsibleManager: 'Antigo Gerente',
+    managerEmail: 'nao.usar@atvos.com',
+    isActive: false, // Inativo de propósito para disparar regra de erro
+  },
+  {
+    kostl: 'CC-1300-LOG04',
+    ktext: 'Logística Rodoviária e Dutos Etanol',
+    bukrs: '1300',
+    werks: '1301',
+    prctr: 'PC-1300-LOGI',
+    responsibleManager: 'Luciana Rocha',
+    managerEmail: 'luciana.rocha@atvos.com',
+    isActive: true,
+  },
+  {
+    kostl: 'CC-1400-AMB05',
+    ktext: 'Sustentabilidade e Certificação RenovaBio',
+    bukrs: '1400',
+    werks: '1401',
+    prctr: 'PC-1400-CORP',
+    responsibleManager: 'Dra. Fernanda Lima',
+    managerEmail: 'fernanda.lima@atvos.com',
+    isActive: true,
+  },
+  {
+    kostl: 'CC-1500-ARR06',
+    ktext: 'Parcerias Agrícolas e Arrendamento de Terras',
+    bukrs: '1500',
+    werks: '1501',
+    prctr: 'PC-1500-AGRO',
+    responsibleManager: 'Marcelo Toledo',
+    managerEmail: 'marcelo.toledo@atvos.com',
+    isActive: true,
+  },
+];
+
+export const SAP_GL_ACCOUNTS_DB: SapGlAccount[] = [
+  {
+    saknr: '5101001',
+    txt50: 'Despesa c/ Colheita e Tratos Culturais Terceirizados',
+    accountType: 'EXPENSE',
+    isAutoPostingOnly: false,
+    isActive: true,
+  },
+  {
+    saknr: '5102005',
+    txt50: 'Despesa c/ Manutenção Industrial & Caldeiras Safra',
+    accountType: 'EXPENSE',
+    isAutoPostingOnly: false,
+    isActive: true,
+  },
+  {
+    saknr: '5103010',
+    txt50: 'Despesa c/ Fretes e Movimentação Logística Etanol',
+    accountType: 'EXPENSE',
+    isAutoPostingOnly: false,
+    isActive: true,
+  },
+  {
+    saknr: '5104020',
+    txt50: 'Despesa c/ Royalties Genética Cana & Arrendamento',
+    accountType: 'EXPENSE',
+    isAutoPostingOnly: false,
+    isActive: true,
+  },
+  {
+    saknr: '5105030',
+    txt50: 'Despesa c/ Auditorias Ambientais & Certificados',
+    accountType: 'EXPENSE',
+    isAutoPostingOnly: false,
+    isActive: true,
+  },
+  {
+    saknr: '2104001',
+    txt50: 'Provisão para Serviços a Faturar (Fornecedores)',
+    accountType: 'PROVISION_LIABILITY',
+    isAutoPostingOnly: false,
+    isActive: true,
+  },
+  {
+    saknr: '2104002',
+    txt50: 'Provisão para Encargos de Arrendamento Agrícola',
+    accountType: 'PROVISION_LIABILITY',
+    isAutoPostingOnly: false,
+    isActive: true,
+  },
+];
+
+export const SAP_OPEN_PERIODS_DB: SapAccountingPeriod[] = [
+  { bukrs: '1000', gjahr: 2026, poper: 8, isOpen: true },
+  { bukrs: '1100', gjahr: 2026, poper: 8, isOpen: true },
+  { bukrs: '1200', gjahr: 2026, poper: 8, isOpen: true },
+  { bukrs: '1300', gjahr: 2026, poper: 8, isOpen: true },
+  { bukrs: '1400', gjahr: 2026, poper: 8, isOpen: true },
+  { bukrs: '1500', gjahr: 2026, poper: 8, isOpen: true },
+  { bukrs: '1600', gjahr: 2026, poper: 8, isOpen: true },
+  // Períodos passados fechados
+  { bukrs: '1100', gjahr: 2026, poper: 7, isOpen: false },
+  { bukrs: '1200', gjahr: 2026, poper: 7, isOpen: false },
+];
