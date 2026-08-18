@@ -8,9 +8,9 @@ export const ATVOS_COMPANIES = [
   { code: '1400', name: 'Unidade Alto Taquari (Alto Taquari - MT)', plant: '1401', state: 'MT' },
   { code: '1500', name: 'Unidade Conquista do Pontal (Mirante do Paranapanema - SP)', plant: '1501', state: 'SP' },
   { code: '1600', name: 'Unidade Teodoro Sampaio (Teodoro Sampaio - SP)', plant: '1601', state: 'SP' },
-];
+] as const;
 
-export const SAP_VENDORS_DB: SapVendor[] = [
+export const SAP_VENDORS_DB = [
   {
     lifnr: '0000104821',
     name1: 'AGROSAFRA COLHEITA & LOGÍSTICA LTDA',
@@ -59,9 +59,9 @@ export const SAP_VENDORS_DB: SapVendor[] = [
     isActive: false,
     blockedForPosting: true,
   },
-];
+] as const satisfies readonly SapVendor[];
 
-export const SAP_COST_CENTERS_DB: SapCostCenter[] = [
+export const SAP_COST_CENTERS_DB = [
   {
     kostl: 'CC-1100-AGR01',
     ktext: 'Colheita Mecanizada & Transbordo Cana',
@@ -122,9 +122,9 @@ export const SAP_COST_CENTERS_DB: SapCostCenter[] = [
     managerEmail: 'marcelo.toledo@atvos.com',
     isActive: true,
   },
-];
+] as const satisfies readonly SapCostCenter[];
 
-export const SAP_GL_ACCOUNTS_DB: SapGlAccount[] = [
+export const SAP_GL_ACCOUNTS_DB = [
   {
     saknr: '5101001',
     txt50: 'Despesa c/ Colheita e Tratos Culturais Terceirizados',
@@ -174,9 +174,9 @@ export const SAP_GL_ACCOUNTS_DB: SapGlAccount[] = [
     isAutoPostingOnly: false,
     isActive: true,
   },
-];
+] as const satisfies readonly SapGlAccount[];
 
-export const SAP_OPEN_PERIODS_DB: SapAccountingPeriod[] = [
+export const SAP_OPEN_PERIODS_DB = [
   { bukrs: '1000', gjahr: 2026, poper: 8, isOpen: true },
   { bukrs: '1100', gjahr: 2026, poper: 8, isOpen: true },
   { bukrs: '1200', gjahr: 2026, poper: 8, isOpen: true },
@@ -187,4 +187,4 @@ export const SAP_OPEN_PERIODS_DB: SapAccountingPeriod[] = [
   // Períodos passados fechados
   { bukrs: '1100', gjahr: 2026, poper: 7, isOpen: false },
   { bukrs: '1200', gjahr: 2026, poper: 7, isOpen: false },
-];
+] as const satisfies readonly SapAccountingPeriod[];

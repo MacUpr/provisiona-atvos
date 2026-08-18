@@ -1,5 +1,5 @@
 # 🌿 PROVISIONA · Automação Inteligente de Provisões Contábeis (Atvos)
-> **Versão:** `v1.0.0 Enterprise PoC`  
+> **Versão:** `v1.0.1 Enterprise PoC`  
 > **Chamada de Inovação Atvos** | Integração Nativa SAP S/4HANA & ECC  
 > **Conformidade Normativa:** CPC 25 / IAS 37 (IFRS) | Idempotência Criptográfica SHA-256
 
@@ -11,7 +11,9 @@
 3. [Arquitetura Técnica em 4 Camadas (Para Arquitetos e Tech Leads)](#3-arquitetura-técnica-em-4-camadas)
 4. [Cenários Agroindustriais da Atvos Implementados](#4-cenários-agroindustriais-da-atvos)
 5. [Rigor Contábil & Conformidade CPC 25 / IAS 37](#5-rigor-contábil--cpc-25--ias-37)
-6. [Instalação e Execução Rápida](#6-instalação-e-execução-rápida)
+6. [Stack Técnica & Qualidade de Código](#6-stack-técnica--qualidade-de-código)
+7. [Instalação e Execução Rápida](#7-instalação-e-execução-rápida)
+8. [Changelog](#8-changelog)
 
 ---
 
@@ -174,7 +176,30 @@ O Provisiona não é apenas um sistema de automação de processos — ele é um
 
 ---
 
-## 6. Instalação e Execução Rápida
+## 6. Stack Técnica & Qualidade de Código
+
+### Tecnologias
+
+| Camada | Tecnologia | Versão |
+| :--- | :--- | :---: |
+| **Frontend** | React + TypeScript | 19.1 / 5.7 |
+| **Estilização** | Tailwind CSS | 3.4 |
+| **Build** | Vite | 6.4 |
+| **Testes** | Vitest + Testing Library | 4.1 |
+| **Ícones** | Lucide React | 1.16 |
+
+### Práticas de Engenharia (v1.0.1)
+
+- **Code Splitting**: `CockpitTelemetry` e `Cpc25Inspector` são carregados sob demanda via `React.lazy` + `Suspense`, reduzindo o chunk principal em ~15 KB.
+- **Testes Automatizados**: Suite Vitest com 4 testes unitários cobrindo o motor de validação (cenários touchless, alçadas, exceções e CPC 25).
+- **Acessibilidade (A11y)**: Toasts com `aria-live="polite"` e `role="alert"`; modais fecham com tecla `Escape`; menu mobile com `aria-expanded`.
+- **Imutabilidade de Dados**: Constantes de dados mestres SAP usam `as const satisfies readonly T[]` para inferência de tipos literais e prevenção de mutação.
+- **Feature Flags**: Configuração centralizada via variáveis de ambiente (`VITE_FEATURE_*`) com defaults seguros em `src/config/env.ts`.
+- **Dark Mode**: Tailwind configurado com `darkMode: 'class'` para suporte nativo a temas escuros.
+
+---
+
+## 7. Instalação e Execução Rápida
 
 ### Pré-requisitos:
 - **Node.js**: v18+ (testado e homologado em Node v22)
@@ -190,8 +215,14 @@ cd provisiona-atvos
 # 2. Instalar as dependências
 npm install
 
-# 3. Executar o servidor de desenvolvimento
+# 3. Configurar variáveis de ambiente (opcional para modo demo)
+cp .env.example .env
+
+# 4. Executar o servidor de desenvolvimento
 npm run dev
+
+# 5. Executar os testes automatizados
+npm run test:run
 ```
 
 Acesse em seu navegador: **`http://localhost:3000`**
@@ -200,6 +231,28 @@ Acesse em seu navegador: **`http://localhost:3000`**
 ```bash
 npm run build
 ```
+
+---
+
+## 8. Changelog
+
+### v1.0.1 (18/08/2026) — Polimento & Qualidade Enterprise
+- ♿ **Acessibilidade**: Toasts com `aria-live`, modais fecham com `Escape`, menu hamburger mobile com ARIA labels.
+- 📦 **Code Splitting**: Lazy loading de `CockpitTelemetry` e `Cpc25Inspector` com `React.Suspense`.
+- 🧪 **Testes Automatizados**: Vitest + Testing Library configurados com 4 testes do motor de validação.
+- 🔒 **Imutabilidade**: Constantes SAP com `as const satisfies` para segurança de tipos.
+- 🎛️ **Feature Flags**: `.env` + `src/config/env.ts` para configuração de ambiente e funcionalidades.
+- 🌙 **Dark Mode**: `darkMode: 'class'` adicionado ao Tailwind.
+- 🧹 **Cleanup**: Imports não utilizados removidos; `OcrExtractorService` renomeado para `MockOcrExtractorService` com `@deprecated`.
+
+### v1.0.0 (18/08/2026) — Release Inicial
+- Protótipo funcional com arquitetura em 4 camadas.
+- 5 cenários agroindustriais Atvos pré-configurados.
+- Motor de Validação com dados mestres SAP (LFA1, CSKS, SKA1, OB52).
+- Trilha de auditoria imutável com SHA-256.
+- Integração SAP idempotente (BAPI_ACC_DOCUMENT_POST).
+- Cockpit executivo de telemetria.
+- Inspetor CPC 25 / IAS 37.
 
 ---
 

@@ -13,22 +13,18 @@ import { ValidationMatrix } from './components/ValidationMatrix';
 import { WorkflowAudit } from './components/WorkflowAudit';
 import { SapPostingInspector } from './components/SapPostingInspector';
 import { ExceptionQueue } from './components/ExceptionQueue';
-import { Cpc25Inspector } from './components/Cpc25Inspector';
 import { MasterDataModal } from './components/MasterDataModal';
 import { NewProvisionModal } from './components/NewProvisionModal';
-import { CockpitTelemetry } from './components/CockpitTelemetry';
 import {
   Sparkles,
   CheckCircle2,
   AlertOctagon,
   AlertTriangle,
-  Layers,
-  Zap,
-  RotateCcw,
   X,
-  FileCheck,
-  ShieldAlert,
 } from 'lucide-react';
+
+const CockpitTelemetry = React.lazy(() => import('./components/CockpitTelemetry').then(m => ({ default: m.CockpitTelemetry })));
+const Cpc25Inspector = React.lazy(() => import('./components/Cpc25Inspector').then(m => ({ default: m.Cpc25Inspector })));
 
 interface ToastNotification {
   id: string;
@@ -54,6 +50,19 @@ export function App() {
   const [exceptionsList, setExceptionsList] = useState<ProvisionRecord[]>([DEMO_SCENARIOS[2].provision, DEMO_SCENARIOS[3].provision]);
   const [duplicateBlockedCount, setDuplicateBlockedCount] = useState<number>(14);
   const [toasts, setToasts] = useState<ToastNotification[]>([]);
+
+  // Close modals on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (isNewProvisionOpen) setIsNewProvisionOpen(false);
+        else if (isExceptionQueueOpen) setIsExceptionQueueOpen(false);
+        else if (isMasterDataOpen) setIsMasterDataOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isMasterDataOpen, isExceptionQueueOpen, isNewProvisionOpen]);
 
   // Toast Helper
   const addToast = (type: ToastNotification['type'], title: string, message: string) => {
@@ -478,18 +487,30 @@ export function App() {
 
         {/* Tab 2: Cockpit & Telemetria */}
         {activeTab === 'cockpit' && (
-          <CockpitTelemetry
-            touchlessCount={38}
-            exceptionCount={exceptionsList.length}
-            totalPostedSap={46}
-            totalReversals={12}
-            duplicateBlockedCount={duplicateBlockedCount}
-          />
+          <React.Suspense fallback={
+            <div className="flex items-center justify-center py-20">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-400"></div>
+            </div>
+          }>
+            <CockpitTelemetry
+              touchlessCount={38}
+              exceptionCount={exceptionsList.length}
+              totalPostedSap={46}
+              totalReversals={12}
+              duplicateBlockedCount={duplicateBlockedCount}
+            />
+          </React.Suspense>
         )}
 
         {/* Tab 3: Inspetor CPC 25 / IAS 37 */}
         {activeTab === 'cpc25' && (
-          <Cpc25Inspector provision={currentProvision} />
+          <React.Suspense fallback={
+            <div className="flex items-center justify-center py-20">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-400"></div>
+            </div>
+          }>
+            <Cpc25Inspector provision={currentProvision} />
+          </React.Suspense>
         )}
       </main>
 
@@ -514,10 +535,11 @@ export function App() {
       )}
 
       {/* Floating Toast Notifications */}
-      <div className="fixed bottom-4 right-4 z-50 flex flex-col space-y-2 max-w-sm w-full pointer-events-none">
+      <div className="fixed bottom-4 right-4 z-50 flex flex-col space-y-2 max-w-sm w-full pointer-events-none" role="log" aria-live="polite" aria-label="Notificações do sistema">
         {toasts.map((toast) => (
           <div
             key={toast.id}
+            role="alert"
             className={`pointer-events-auto p-4 rounded-xl shadow-2xl border flex items-start space-x-3 transition-all transform animate-in slide-in-from-bottom-2 ${
               toast.type === 'SUCCESS'
                 ? 'bg-slate-900/95 border-emerald-500/50 text-white'

@@ -7,7 +7,8 @@ export interface RawDocumentInput {
   rawText?: string;
 }
 
-export class OcrExtractorService {
+/** @deprecated Mock implementation. Replace with real OCR/LLM service in production. */
+export class MockOcrExtractorService {
   /**
    * Executa a Camada 1: Classificação, Extração com OCR/LLM e Cálculo de Score de Confiança
    */

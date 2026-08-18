@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -23,9 +24,6 @@ export default {
         sap: {
           blue: '#0a6ed1', // SAP Corporate Blue
           dark: '#002b49',
-          gold: '#f0ab00',
-          light: '#f5f7fa',
-          border: '#d9e0e8',
         },
         brand: {
           dark: '#0B1320',

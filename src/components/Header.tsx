@@ -1,5 +1,5 @@
-import React from 'react';
-import { ShieldCheck, Database, Layers, AlertCircle, RefreshCw, Cpu } from 'lucide-react';
+import React, { useState } from 'react';
+import { Database, Layers, AlertCircle, Menu, X } from 'lucide-react';
 
 interface HeaderProps {
   onOpenMasterData: () => void;
@@ -20,6 +20,8 @@ export const Header: React.FC<HeaderProps> = ({
   activeTab,
   setActiveTab,
 }) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-40 bg-brand-dark/95 backdrop-blur-md border-b border-brand-border/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,6 +81,16 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </nav>
 
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="lg:hidden p-2 rounded-lg bg-brand-surface hover:bg-brand-surfaceLight border border-brand-border text-slate-300 hover:text-white transition-colors"
+            aria-label="Abrir menu de navegação"
+            aria-expanded={isMobileMenuOpen}
+          >
+            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+
           {/* Right Action Controls */}
           <div className="flex items-center space-x-2 sm:space-x-3">
             {/* SAP Health Indicator */}
@@ -121,6 +133,42 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </div>
         </div>
+
+        {/* Mobile Navigation Menu */}
+        {isMobileMenuOpen && (
+          <nav className="lg:hidden border-t border-brand-border/60 py-2 px-4 space-y-1" aria-label="Menu principal mobile">
+            <button
+              onClick={() => { setActiveTab('pipeline'); setIsMobileMenuOpen(false); }}
+              className={`w-full text-left px-3 py-2 rounded-md text-xs font-medium transition-all ${
+                activeTab === 'pipeline'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'text-brand-muted hover:text-white hover:bg-brand-surfaceLight'
+              }`}
+            >
+              Esteira Operacional (4 Camadas)
+            </button>
+            <button
+              onClick={() => { setActiveTab('cockpit'); setIsMobileMenuOpen(false); }}
+              className={`w-full text-left px-3 py-2 rounded-md text-xs font-medium transition-all ${
+                activeTab === 'cockpit'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'text-brand-muted hover:text-white hover:bg-brand-surfaceLight'
+              }`}
+            >
+              Cockpit & Telemetria
+            </button>
+            <button
+              onClick={() => { setActiveTab('cpc25'); setIsMobileMenuOpen(false); }}
+              className={`w-full text-left px-3 py-2 rounded-md text-xs font-medium transition-all ${
+                activeTab === 'cpc25'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'text-brand-muted hover:text-white hover:bg-brand-surfaceLight'
+              }`}
+            >
+              Inspetor CPC 25 / IAS 37
+            </button>
+          </nav>
+        )}
       </div>
     </header>
   );
